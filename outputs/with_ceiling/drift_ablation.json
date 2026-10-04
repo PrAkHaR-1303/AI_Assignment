@@ -1,0 +1,104 @@
+{
+  "capture_id": "c7d28f72c6",
+  "regeneration_command": "python -m roomscan \"single_scan_with_ceiling/c7d28f72c6\" --output \"outputs/with_ceiling\"",
+  "before": {
+    "method": "raw odometry poses",
+    "footprint_area_m2": 176.161,
+    "polygon_xz_m": [
+      [
+        -5.237,
+        1.777
+      ],
+      [
+        -5.001,
+        1.209
+      ],
+      [
+        0.753,
+        -5.957
+      ],
+      [
+        2.11,
+        -4.569
+      ],
+      [
+        5.356,
+        -0.21
+      ],
+      [
+        7.276,
+        4.006
+      ],
+      [
+        8.152,
+        8.973
+      ],
+      [
+        7.133,
+        10.528
+      ],
+      [
+        -0.587,
+        12.791
+      ],
+      [
+        -4.799,
+        12.91
+      ]
+    ]
+  },
+  "after": {
+    "method": "position revisit loop closure with linear translation residual distribution; vertical frame retained from odometry",
+    "footprint_area_m2": 176.161,
+    "polygon_xz_m": [
+      [
+        -5.237,
+        1.777
+      ],
+      [
+        -5.001,
+        1.209
+      ],
+      [
+        0.753,
+        -5.957
+      ],
+      [
+        2.11,
+        -4.569
+      ],
+      [
+        5.355,
+        -0.21
+      ],
+      [
+        7.276,
+        4.006
+      ],
+      [
+        8.152,
+        8.973
+      ],
+      [
+        7.133,
+        10.528
+      ],
+      [
+        -0.587,
+        12.791
+      ],
+      [
+        -4.8,
+        12.91
+      ]
+    ]
+  },
+  "loop_closure": {
+    "start_frame_index": 388,
+    "end_frame_index": 4922,
+    "pre_correction_residual_m": 0.00014683499889317972,
+    "translation_residual_x_m": 3.736999999998103e-05,
+    "translation_residual_z_m": 0.00014199999999986446
+  },
+  "interpretation": "Geometric drift ablation only; no ground truth was supplied, so area accuracy or gate movement cannot be claimed."
+}
