@@ -1,16 +1,16 @@
-# Technical Report (Current Submission)
+# Technical Report: LiDAR Baseline (Partial Submission)
 
 ## System and tier design
 
 The implementation is a local Python package with a one-command LiDAR path. It decodes the supplied 16-bit grayscale depth and 8-bit confidence PNGs, joins frames by their six-digit frame IDs to odometry rows, scales camera intrinsics to the depth image size, projects valid samples into the world frame, and estimates a 2D convex-hull footprint. The output contains wall segments, floor-area and ceiling-height fields, confidence intervals, sensor statistics, and an SVG plan. It is deterministic and has no network or pretrained model dependency.
 
-| Tier | Target hardware | Current path | Claimed accuracy |
+| Input tier | Brief's target hardware | Implementation status | Accuracy evidence |
 |---|---|---|---|
-| Photos, 2-8 stills | iPhone 15 or newer | Not implemented | None claimed |
-| Video, handheld RGB | iPhone 15 or newer | RGB is noted but not decoded | None claimed |
-| LiDAR, depth + poses + intrinsics | Pro-class iPhone | Implemented for the supplied export layout | Not calibrated; no gate claim |
+| Photos, 2-8 stills per room | iPhone 15 or newer | Not implemented; photo-only input is rejected | None; no photo benchmark |
+| Handheld video | iPhone 15 or newer | Not implemented; bundled RGB video is not decoded | None; no video benchmark |
+| LiDAR depth, poses, and intrinsics | Pro-class iPhone | Reader runs on supplied export layout; capture-device model is unknown | Uncalibrated; no accuracy gate claimed |
 
-No device matrix can be validated from these files alone. The brief requires iPhone 15+ photo/video runs and Pro-class LiDAR; this workspace contains only three LiDAR exports without hardware identifiers.
+This is a status matrix, not a validated compatibility matrix. The brief requires iPhone 15+ photo/video runs and Pro-class LiDAR; this workspace contains only three LiDAR exports without hardware identifiers.
 
 ## Geometry and drift
 

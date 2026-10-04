@@ -167,7 +167,7 @@ def _render_svg(plan, output_path: Path, title: str):
         label = html.escape(f"{wall['length_m']:.2f} m")
         items.append(f"<text x='{mx:.1f}' y='{mz-8:.1f}' text-anchor='middle' font-size='14' fill='#17324d'>{label}</text>")
     area = plan.get("area_m2")
-    subtitle = f"Observed footprint: {area:.2f} m²" if area is not None else "Observed footprint unavailable"
+    subtitle = f"Estimated convex-hull area: {area:.2f} m²" if area is not None else "Estimated area unavailable"
     items.append(f"<text x='40' y='48' font-size='21' font-weight='700' fill='#17324d'>{html.escape(title)}</text>")
     items.append(f"<text x='40' y='76' font-size='14' fill='#526477'>{html.escape(subtitle)} · exploratory LiDAR estimate</text>")
     items.append("<text x='40' y='590' font-size='12' fill='#526477'>Plan outline is a convex hull of sampled depth points; openings and damage are not assessed.</text>")

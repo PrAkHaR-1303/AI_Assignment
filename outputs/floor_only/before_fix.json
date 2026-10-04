@@ -355,7 +355,7 @@
     "missing_pose_for_selected_frame_count": 0,
     "selected_frames_without_confidence_count": 0,
     "duration_seconds": 114.783,
-    "processing_seconds": 24.598,
+    "processing_seconds": 13.17,
     "rgb_video_available": true,
     "rgb_video_decoded": false,
     "ceiling_capture_operator_confirmed": false

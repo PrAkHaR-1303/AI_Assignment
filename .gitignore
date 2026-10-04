@@ -1,5 +1,7 @@
 __pycache__/
 *.py[cod]
+# Supplied sensor bundles total about 874 MB and contain interior RGB video.
+# Keep them out of ordinary Git commits; deliver the raw inputs separately.
 /single_room/
 /single_scan_floor_only/
 /single_scan_with_ceiling/

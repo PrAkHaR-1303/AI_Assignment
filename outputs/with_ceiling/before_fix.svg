@@ -11,5 +11,5 @@
 <text x='140.7' y='103.4' text-anchor='middle' font-size='14' fill='#17324d'>4.21 m</text>
 <text x='85.2' y='234.8' text-anchor='middle' font-size='14' fill='#17324d'>11.14 m</text>
 <text x='40' y='48' font-size='21' font-weight='700' fill='#17324d'>c7d28f72c6 (before drift correction)</text>
-<text x='40' y='76' font-size='14' fill='#526477'>Observed footprint: 176.16 m² · exploratory LiDAR estimate</text>
+<text x='40' y='76' font-size='14' fill='#526477'>Estimated convex-hull area: 176.16 m² · exploratory LiDAR estimate</text>
 <text x='40' y='590' font-size='12' fill='#526477'>Plan outline is a convex hull of sampled depth points; openings and damage are not assessed.</text></svg>

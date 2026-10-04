@@ -22,7 +22,7 @@ Statuses refer to artifacts in this workspace. `Partial` means a reproducible ba
 | Photo/video accuracy gates and calibrated intervals | `TECHNICAL_REPORT.md` | Error-budget statement | Not evaluated |
 | LiDAR head-to-head against a consumer app | `COMPLIANCE.md` | Comparison table placeholder in report | Blocked; app export/version and shared-room GT absent |
 | Shipped fix, regenerable before/after, readable diff | `roomscan/pipeline.py`, `outputs/*/before_fix.json`, `outputs/*/plan.json`, `outputs/*/drift_ablation.json` | Drift correction ablation | Partial; improvement is geometric only and cannot be scored against truth |
-| Fresh-machine reproduction bundle | `README.md`, `roomscan/` | Standard-library Python package and CLI | Partial; supported LiDAR route only |
+| Fresh-machine reproduction bundle | `README.md`, `roomscan/`, `DATA_BUNDLE.md` | Standard-library Python package and CLI; raw-input inventory | Partial; raw capture folders are excluded from Git, so a clean clone cannot regenerate the sample outputs |
 | Commit history/process evidence | `.git` | Git was initialized after intake; staging required a one-command safe-directory override because the sandbox owns `.git` | Available for continued candidate commits |
 | Technical report (maximum six pages) | `TECHNICAL_REPORT.md` | Concise architecture, tiers, drift, calibration, and gaps | Partial |
-| Raw sensor logs, GT, app exports | `single_room/`, `single_scan_floor_only/`, `single_scan_with_ceiling/` | Supplied raw scan bundles | Partial; no ground truth or app exports |
+| Raw sensor logs, GT, app exports | `single_room/`, `single_scan_floor_only/`, `single_scan_with_ceiling/` | Supplied raw scan bundles exist in the original working copy | Partial; raw inputs are excluded from Git; no ground truth or app exports |

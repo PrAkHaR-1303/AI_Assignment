@@ -1,5 +1,7 @@
 # Capture Route Status
 
+**Status: incomplete for the case-study defense.** This document describes an export handoff and a walking procedure, but no named installable capture app, app version, device run, or verified export test is available. Do not present it as a ready stock-capture route.
+
 The case-study workspace contains three exported LiDAR capture bundles, but it does not identify the phone app or its version and does not include an iPhone, Xcode project, signing profile, or TestFlight build. I have therefore not labeled an unverified app workflow as a ready capture route.
 
 For a usable follow-up capture route, the app must export this folder layout without cloud processing:
