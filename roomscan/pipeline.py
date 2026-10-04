@@ -146,7 +146,7 @@ def _measurement(value, unit, absolute_floor, relative, status="estimated"):
     return {"value": value, "unit": unit, "interval_95": _interval(value, absolute_floor, relative), "status": status}
 
 
-def _render_svg(plan, output_path: Path, title: str):
+def _render_svg(plan, output_path: Path, title: str, source_label="exploratory LiDAR estimate", footer_note="Plan outline is a convex hull of sampled depth points; openings and damage are not assessed."):
     polygon = plan.get("polygon") or []
     if len(polygon) < 3:
         content = "<text x='40' y='80' font-size='16'>No stable room outline could be estimated.</text>"
@@ -169,8 +169,8 @@ def _render_svg(plan, output_path: Path, title: str):
     area = plan.get("area_m2")
     subtitle = f"Estimated convex-hull area: {area:.2f} m²" if area is not None else "Estimated area unavailable"
     items.append(f"<text x='40' y='48' font-size='21' font-weight='700' fill='#17324d'>{html.escape(title)}</text>")
-    items.append(f"<text x='40' y='76' font-size='14' fill='#526477'>{html.escape(subtitle)} · exploratory LiDAR estimate</text>")
-    items.append("<text x='40' y='590' font-size='12' fill='#526477'>Plan outline is a convex hull of sampled depth points; openings and damage are not assessed.</text>")
+    items.append(f"<text x='40' y='76' font-size='14' fill='#526477'>{html.escape(subtitle)} · {html.escape(source_label)}</text>")
+    items.append(f"<text x='40' y='590' font-size='12' fill='#526477'>{html.escape(footer_note)}</text>")
     output_path.write_text(_svg_shell(title, 900, 620, "\n".join(items)), encoding="utf-8")
 
 
@@ -246,10 +246,12 @@ def _serialize_capture(capture_dir: Path, poses, point_list, stats, matrix, drif
     return output, plan
 
 
-def reconstruct(capture_dir: Path, output_dir: Path, frame_stride: int = 30, pixel_stride: int = 6, depth_scale: float = 0.001, tier: str = "lidar", ceiling_observed: bool = False):
+def reconstruct(capture_dir: Path, output_dir: Path, frame_stride: int = 30, pixel_stride: int = 6, depth_scale: float = 0.001, tier: str = "lidar", ceiling_observed: bool = False, frame_offset: int = 0):
     started = time.perf_counter()
     if frame_stride < 1 or pixel_stride < 1:
         raise ValueError("frame_stride and pixel_stride must be positive integers")
+    if frame_offset < 0 or frame_offset >= frame_stride:
+        raise ValueError("frame_offset must be in the range [0, frame_stride)")
     if depth_scale <= 0:
         raise ValueError("depth_scale must be greater than zero")
     capture_dir = capture_dir.resolve()
@@ -272,7 +274,7 @@ def reconstruct(capture_dir: Path, output_dir: Path, frame_stride: int = 30, pix
     used_frames = []
     missing_pose, missing_confidence = 0, 0
     for sequence_index, frame_name in enumerate(frame_names):
-        if sequence_index % max(1, frame_stride):
+        if sequence_index % frame_stride != frame_offset:
             continue
         pose_index = pose_by_frame.get(frame_name)
         if pose_index is None:
@@ -296,6 +298,7 @@ def reconstruct(capture_dir: Path, output_dir: Path, frame_stride: int = 30, pix
         "imu_rows": len(_read_csv(capture_dir / "imu.csv")) if (capture_dir / "imu.csv").exists() else None,
         "processed_depth_frames": len(used_frames),
         "frame_stride": frame_stride,
+        "frame_offset": frame_offset,
         "pixel_stride": pixel_stride,
         "missing_pose_for_selected_frame_count": missing_pose,
         "selected_frames_without_confidence_count": missing_confidence,
@@ -325,7 +328,7 @@ def reconstruct(capture_dir: Path, output_dir: Path, frame_stride: int = 30, pix
 
     ablation = {
         "capture_id": capture_dir.name,
-        "regeneration_command": f"python -m roomscan \"{_portable_path(capture_dir)}\" --output \"{_portable_path(output_dir)}\"",
+        "regeneration_command": f"python -m roomscan \"{_portable_path(capture_dir)}\" --output \"{_portable_path(output_dir)}\" --frame-stride {frame_stride} --frame-offset {frame_offset}",
         "before": {"method": "raw odometry poses", "footprint_area_m2": before_plan.get("area_m2"), "polygon_xz_m": before_plan.get("polygon", [])},
         "after": {"method": drift["method"], "footprint_area_m2": after_plan.get("area_m2"), "polygon_xz_m": after_plan.get("polygon", [])},
         "loop_closure": loop,

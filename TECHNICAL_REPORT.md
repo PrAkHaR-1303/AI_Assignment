@@ -1,37 +1,52 @@
-# Technical Report: LiDAR Baseline (Partial Submission)
+# Applied AI Case Study: Three-Tier Reconstruction Prototype
 
-## System and tier design
+## System and input discipline
 
-The implementation is a local Python package with a one-command LiDAR path. It decodes the supplied 16-bit grayscale depth and 8-bit confidence PNGs, joins frames by their six-digit frame IDs to odometry rows, scales camera intrinsics to the depth image size, projects valid samples into the world frame, and estimates a 2D convex-hull footprint. The output contains wall segments, floor-area and ceiling-height fields, confidence intervals, sensor statistics, and an SVG plan. It is deterministic and has no network or pretrained model dependency.
+The package processes only the three supplied folders. The LiDAR route reads depth, confidence, intrinsics, and camera poses. The RGB routes read `rgb.mp4` plus synchronized `odometry.csv` and camera intrinsics; they do not read depth or confidence images. The photo route samples up to eight still frames from each bundled video because no standalone photo inputs were supplied. The RGB routes use metric camera-pose metadata, so they are pose-assisted RGB prototypes rather than strict image-only systems.
 
-| Input tier | Brief's target hardware | Implementation status | Accuracy evidence |
-|---|---|---|---|
-| Photos, 2-8 stills per room | iPhone 15 or newer | Not implemented; photo-only input is rejected | None; no photo benchmark |
-| Handheld video | iPhone 15 or newer | Not implemented; bundled RGB video is not decoded | None; no video benchmark |
-| LiDAR depth, poses, and intrinsics | Pro-class iPhone | Reader runs on supplied export layout; capture-device model is unknown | Uncalibrated; no accuracy gate claimed |
+The local output contract is `schemas/case-study-output.schema.json`. The published schema named by the case-study brief was not included in the workspace. Every output includes assumptions and quality flags; measurements and intervals are explicitly marked uncalibrated.
 
-This is a status matrix, not a validated compatibility matrix. The brief requires iPhone 15+ photo/video runs and Pro-class LiDAR; this workspace contains only three LiDAR exports without hardware identifiers.
+## Tier implementations
 
-## Geometry and drift
+| Tier | Processing | Result status |
+|---|---|---|
+| LiDAR | Project sampled depth points through the paired camera poses; estimate a convex-hull footprint and candidate edges. Apply one conservative translation correction when a trajectory revisit is detected. | Runs on all three supplied bundles. Hulls can include furniture or miss unseen boundaries. |
+| Photo proxy | Select 2-8 RGB frames from the supplied video, detect ORB features, match pairs, reject outliers with an essential-matrix RANSAC step, and triangulate using synchronized metric poses. | The supplied proxies produce zero accepted 3D points; no photo area is reported. |
+| Video proxy | Sample RGB frames, detect/match ORB features, reject outliers, and triangulate against synchronized metric poses. | Two bundles produce sparse hulls; the ceiling bundle produces only three points and no area. Results disagree strongly with the LiDAR hulls. |
 
-Depth points are projected using the camera-to-world quaternion and translation for the corresponding frame. The plan outline is the convex hull of points in a wall-height band. This is intentionally simple: it can include furniture, omit unseen wall sections, and does not force right angles. A revisit detector searches for trajectory positions within 0.45 m separated by at least 240 frames. If it finds a match, the translation residual is distributed linearly over the path and carried into the trajectory tail. `before_fix.json` and `before_fix.svg` preserve raw-odometry results; `plan.json` and `plan.svg` use the corrected poses. `drift_ablation.json` reports both footprints.
+The OpenCV dependency is isolated in `requirements-vision.txt`; the original LiDAR route remains standard-library-only. The video clips are HEVC and OpenCV's FFmpeg backend decodes them locally. RGB frame counts match the associated odometry rows, and the implementation checks frame IDs before using a pose.
 
-This is the shipped drift fix hypothesis: an uncorrected translation residual can warp a room outline when a scan revisits the same place. The fix constrains one geometric revisit. It does not optimize rotation, wall planes, or multiple rooms. The ablation cannot establish improved accuracy because no laser/tape footprint is present.
+## Data-derived benchmark
+
+The benchmark reruns LiDAR with a fixed frame and pixel stride, runs both RGB proxies, and computes a pair of disjoint interleaved LiDAR frame subsets per capture. The RGB/LiDAR comparison is an internal modality comparison. The split comparison measures sampling sensitivity within one capture.
+
+| Capture | LiDAR area proxy (m²) | Photo points | Video area proxy (m²) | Video/LiDAR area difference | LiDAR split area difference |
+|---|---:|---:|---:|---:|---:|
+| `single_room` | 33.725 | 0 | 3.146 | 90.67% | 26.44% |
+| `single_scan_floor_only` | 92.541 | 0 | 39.941 | 56.84% | 19.97% |
+| `single_scan_with_ceiling` | 176.161 | 0 | Not available (3 points) | Not available | 5.64% |
+
+These are geometric proxies, not measured room dimensions. The area disagreements show that the current sparse RGB reconstruction is not reliable enough to stand in for the LiDAR result. The split differences are not repeat-scan results. Full per-tier outputs and machine-readable measurements are under `outputs/benchmark/`.
 
 ## Error budget and calibration
 
-The pipeline reports a 95% interval using a tier-relative allowance with an absolute floor. Every interval is tagged `uncalibrated_assumption`; it must not be interpreted as an empirical confidence interval. The most serious current measurement risks are pose-frame convention, drift between revisits, camera-intrinsics scaling, incomplete wall coverage, and furniture points entering the convex hull. Ceiling height is unreported unless an operator explicitly confirms that the ceiling was visible; the numeric result is then the observed vertical point-cloud span, not a validated laser measurement.
+The dominant risks are camera-pose error, image/pose synchronization, limited RGB overlap, sparse feature triangulation, depth-to-camera assumptions in the LiDAR route, incomplete wall coverage, and furniture entering convex hulls. The RGB output's metric scale depends on bundled camera poses. The photo proxy is also derived from video frames rather than a separate still capture.
 
-The supplied scans have 1,715, 5,251, and 9,745 matching depth/odometry frames, with 16-bit 256 x 192 depth maps. Their IMU streams and RGB videos are present. There is no annotated room outline, opening inventory, ceiling measurement, damage label, repeated same-tier capture, multi-room connector, consumer-app export, or measured benchmark.
+Current 95% intervals use tier-dependent heuristic allowances and are tagged `uncalibrated_assumption`. They are not empirical confidence intervals. No laser/tape ground truth is present, so wall-length error, floor-area error, ceiling error, and the brief's numeric accuracy gates cannot be evaluated.
 
-## Damage, scope, and stitching
+## Open case-study requirements
 
-Damage classes, concealed-damage rules, surface assignments, and scope line items are present as explicit output fields with `not_assessed` states. No model or evidence exists in the workspace to support those claims. The three folders are separate scans; there is no shared landmark or connector capture for room alignment, so the stitched-property output records a single room and no adjacency.
+The folders contain independent single-scan bundles. They do not include a connected three-room walk, separate still-photo capture, repeat scan of the same room, staged-damage labels, opening inventory, measured physical dimensions, named consumer-app exports, or capture-device/app metadata. Consequently this implementation does not establish opening width, ceiling accuracy, repeatability, whole-property adjacency, damage/concealed-damage detection, scope pricing, or consumer-app comparison. These outputs remain explicitly `not_assessed`.
 
-## Fix loop and gates
+The existing drift ablation compares raw and corrected pose geometry, but it has no physical reference. The benchmark exposes an additional sampling-stability problem: area changes across the two disjoint subsets by 5.64%-26.44%. No accuracy improvement is claimed from that internal measure.
 
-The before/after files regenerate from the CLI. The current fix is the revisit translation correction described above. The data can show its geometric footprint effect, but cannot score an opening miss rate, ceiling-height error, repeatability spread, photo/video calibration, multi-room drift, or consumer-app comparison. Those gates remain unevaluated rather than inferred from appearance.
+## Reproduction
 
-## Failure modes and next evidence
+From the workspace root, install OpenCV for the RGB routes and run:
 
-The baseline may produce a plausible outline with incorrect metric dimensions if the quaternion convention, depth unit, or intrinsics scale differs from the assumed export convention. Convex hulls overestimate non-convex rooms and can be pulled outward by furniture. Missing walls are not inferred. Reflections, glass, wet-look surfaces, and low light have not been measured. The next required bundle is a multi-room walk with at least three rooms and a connector, a furnished room with two staged damage classes, a repeated scan, laser/tape dimensions and openings, and a same-room consumer-app export. Photo and video captures plus the named iOS capture route are also required before the walk-in test can be claimed.
+```powershell
+python -m pip install -r requirements-vision.txt
+python -m roomscan.benchmark --root . --output outputs/benchmark --frame-stride 30 --pixel-stride 6 --max-video-frames 100
+```
+
+The supplied raw folders are intentionally ignored by Git. Reproduction from a clone requires those same folders to be copied beside the repository; no other dataset is used.

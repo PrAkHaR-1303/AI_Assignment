@@ -1,0 +1,2 @@
+# Optional dependency for the RGB tiers. The LiDAR baseline remains stdlib-only.
+opencv-python-headless==5.0.0.93

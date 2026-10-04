@@ -1,48 +1,58 @@
-# Applied AI Case Study: Room Scan Baseline
+# Applied AI Case Study: Supplied-Scan Reconstruction
 
-This repository contains a deterministic, offline LiDAR-tier baseline for the three capture bundles supplied with the case study. It reads the raw depth maps, confidence maps, camera intrinsics, and per-frame poses, applies a conservative trajectory revisit correction when one is visible, and writes a JSON result plus a dimensioned SVG plan and a before/after drift ablation.
+This repository implements three local reconstruction routes over the three supplied scan folders. It adds RGB-based sparse reconstruction for the photo and video routes and a reproducible benchmark using only the supplied folders.
 
-> **Submission status: partial baseline.** The supplied LiDAR route runs locally. Photo and video reconstruction, multi-room registration, opening detection, damage analysis, concealed-damage rules, and scope pricing are not implemented. No accuracy gate can be claimed without independent ground truth. See [SUBMISSION_STATUS.md](SUBMISSION_STATUS.md) for the rubric-by-rubric status.
+## Run the tiers
 
-## Run one capture
+Use Python 3.10 or newer from the repository root.
 
-From the repository root, use Python 3.10 or newer. The implementation uses only the Python standard library:
-
-```powershell
-python -m roomscan "single_room/c00a170fe1" --output "outputs/single_room"
-```
-
-The same command works for the other supplied LiDAR captures:
+The LiDAR path uses only the standard library:
 
 ```powershell
-python -m roomscan "single_scan_floor_only/1a8384c3f6" --output "outputs/floor_only"
-python -m roomscan "single_scan_with_ceiling/c7d28f72c6" --output "outputs/with_ceiling" --ceiling-observed
+python -m roomscan "single_room/c00a170fe1" --tier lidar --output "outputs/single_room_lidar"
+python -m roomscan "single_scan_floor_only/1a8384c3f6" --tier lidar --output "outputs/floor_only_lidar"
+python -m roomscan "single_scan_with_ceiling/c7d28f72c6" --tier lidar --output "outputs/with_ceiling_lidar" --ceiling-observed
 ```
 
-Each run creates `plan.json`, `plan.svg`, `before_fix.json`, `before_fix.svg`, and `drift_ablation.json`. The local draft output contract is in `schemas/case-study-output.schema.json`; the case-study PDF refers to a published schema that was not included. `--frame-stride` and `--pixel-stride` control the deterministic sampling rate. For a denser run, try `--frame-stride 15 --pixel-stride 8`; using every frame at full pixel resolution can require substantial memory.
+The RGB routes use the video and synchronized `odometry.csv`/`camera_matrix.csv` from the same supplied folder. They do not read `depth/` or `confidence/`. Install the optional vision dependency first:
 
-## What the baseline measures
+```powershell
+python -m pip install -r requirements-vision.txt
+python -m roomscan "single_room/c00a170fe1" --tier photo --photo-count 8 --output "outputs/single_room_photo"
+python -m roomscan "single_room/c00a170fe1" --tier video --max-video-frames 100 --output "outputs/single_room_video"
+```
 
-The LiDAR path projects sampled 16-bit depth pixels into the odometry frame, estimates a 2D convex-hull footprint and candidate boundary segments, reports a ceiling-height proxy only when an operator confirms the ceiling was captured, and emits per-measurement uncertainty intervals. The intervals are explicitly marked uncalibrated because the workspace contains no laser/tape ground truth.
+The photo route selects 2-8 still frames from the folder's `rgb.mp4`, since the supplied folders contain no separate photo files. The video route samples the RGB stream. Both triangulate ORB feature matches using the metric camera poses and intrinsics bundled with each video. These are **pose-assisted RGB tiers**, not strict photo-only or video-only systems. Their room hulls and intervals are uncalibrated proxies; inspect the quality flags in `plan.json` before interpreting them.
 
-Photo-only and video-only reconstruction, opening detection, damage classification, concealed-damage rules, scope pricing, and multi-room registration are not implemented. Those need image reconstruction/model inputs, labeled damage examples, a connector-room benchmark, and independent measurements. The code emits these fields with a `not_assessed` status instead of inventing results. See [COMPLIANCE.md](COMPLIANCE.md) for the complete requirement map and [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md) for the current error budget and fix-loop account.
+Each tier writes a `plan.json` and `plan.svg`. The local draft output schema is [schemas/case-study-output.schema.json](schemas/case-study-output.schema.json); the published schema referenced by the PDF was not included in the supplied workspace.
 
-## Input bundle layout
+## Reproduce the benchmark
+
+The benchmark re-runs LiDAR for each folder, computes interleaved-frame sampling stability, runs the photo/video routes, and compares their hull-area proxies to the LiDAR result from the same folder:
+
+```powershell
+python -m pip install -r requirements-vision.txt
+python -m roomscan.benchmark --root . --output outputs/benchmark --frame-stride 30 --pixel-stride 6 --max-video-frames 100
+```
+
+It writes `benchmark_measurements.json`, `benchmark_measurements.csv`, `benchmark_summary.md`, and the per-tier JSON/SVG runs under `outputs/benchmark/runs/`.
+
+The interleaved splits show sensitivity to frame sampling within one capture. Photo/video versus LiDAR differences show internal modality consistency. Neither is an independent accuracy or repeatability benchmark: no tape/laser measurements or repeated scans are present in the folders. The report leaves the assignment's accuracy gates unevaluated.
+
+## Inputs
+
+Each supplied folder contains `rgb.mp4`, `depth/`, `confidence/`, `odometry.csv`, `imu.csv`, and `camera_matrix.csv`. The RGB videos are HEVC/H.265; the optional OpenCV wheel supplies FFmpeg decoding. Video frame counts match the odometry row counts in the supplied bundles.
 
 ```text
-capture/
-  camera_matrix.csv
-  odometry.csv
-  imu.csv
-  rgb.mp4
-  depth/000000.png ...
-  confidence/000000.png ...
+single_room/c00a170fe1/
+single_scan_floor_only/1a8384c3f6/
+single_scan_with_ceiling/c7d28f72c6/
 ```
 
-The video is recorded in the bundle but is not decoded in this baseline. Depth values are interpreted as millimeters and converted to meters. Camera intrinsics are scaled from the RGB principal-point dimensions to the 256 x 192 depth maps. Ceiling height remains unreported by default; pass `--ceiling-observed` only when an operator verified that a ceiling surface was captured, as shown in the ceiling sample command above.
+The bundles remain ignored by Git because they contain about 874 MB of interior video and sensor data. A clone needs the supplied folders copied beside this README to regenerate results.
 
-The three supplied capture folders are present in the original working copy but intentionally ignored by Git. Together they occupy about 874 MB and include RGB room video. A fresh clone therefore needs the raw folders delivered separately before the sample commands can run. See [DATA_BUNDLE.md](DATA_BUNDLE.md) for the inventory and [SUBMISSION_STATUS.md](SUBMISSION_STATUS.md) for the current rubric status.
+## Scope and limits
 
-## Reproduction notes
+The LiDAR route estimates a convex-hull outline from sampled depth returns and applies a conservative single-loop translation correction when detected. The RGB routes build sparse feature-point hulls using synchronized camera poses. These are exploratory methods, not validated room plans.
 
-The pipeline is local and makes no network calls. Geometry and measurements are deterministic for fixed capture files and CLI parameters; recorded processing time and absolute input paths can vary by machine. JSON includes the chosen sampling rates, data counts, assumptions, and input capture path. The depth projection and hull estimates are engineering baselines, not a validated product or a claim that the case-study accuracy gates pass.
+Opening detection, connected multi-room stitching, damage classification, concealed-damage decisions, scope pricing, empirical interval calibration, repeat-scan repeatability, and consumer-app comparison are not established by the supplied data. The benchmark does not label these requirements as passed. See [SUBMISSION_STATUS.md](SUBMISSION_STATUS.md), [COMPLIANCE.md](COMPLIANCE.md), [TECHNICAL_REPORT.md](TECHNICAL_REPORT.md), and [DATA_BUNDLE.md](DATA_BUNDLE.md).
