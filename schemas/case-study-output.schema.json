@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:applied-ai-case-study:output:0.1",
+  "title": "Applied AI Case Study Reconstruction Output",
+  "description": "Local draft contract for this workspace. The case-study PDF references a published schema, but none was supplied.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "capture_id",
+    "input_tier",
+    "processing_status",
+    "units",
+    "assumptions",
+    "measurements",
+    "rooms",
+    "stitched_property_plan",
+    "damage_regions",
+    "concealed_damage",
+    "scope_line_items",
+    "confidence_intervals",
+    "drift_correction",
+    "capture_statistics",
+    "camera_matrix_rgb",
+    "trajectory_center_xz_m",
+    "rendered_plan",
+    "quality_flags"
+  ],
+  "properties": {
+    "schema_version": {"const": "applied-ai-case-study/0.1"},
+    "capture_id": {"type": "string", "minLength": 1},
+    "capture_path": {"type": "string"},
+    "input_tier": {"enum": ["photo", "video", "lidar"]},
+    "processing_status": {"type": "string"},
+    "units": {"const": "m"},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "measurements": {"$ref": "#/$defs/measurements"},
+    "rooms": {"type": "array", "items": {"$ref": "#/$defs/room"}},
+    "stitched_property_plan": {"type": "object"},
+    "damage_regions": {"type": "object"},
+    "concealed_damage": {"type": "object"},
+    "scope_line_items": {"type": "object"},
+    "confidence_intervals": {"type": "object"},
+    "drift_correction": {"type": "object"},
+    "capture_statistics": {"type": "object"},
+    "camera_matrix_rgb": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}}
+    },
+    "trajectory_center_xz_m": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}], "minItems": 2, "maxItems": 2},
+    "rendered_plan": {"type": "string"},
+    "quality_flags": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "measurement": {
+      "type": "object",
+      "required": ["value", "unit", "interval_95", "status"],
+      "properties": {
+        "value": {"type": ["number", "null"]},
+        "unit": {"type": "string"},
+        "interval_95": {
+          "anyOf": [
+            {"type": "null"},
+            {
+              "type": "object",
+              "required": ["lower", "upper", "confidence_level", "calibration_status"],
+              "properties": {
+                "lower": {"type": "number"},
+                "upper": {"type": "number"},
+                "confidence_level": {"type": "number", "minimum": 0, "maximum": 1},
+                "calibration_status": {"type": "string"}
+              }
+            }
+          ]
+        },
+        "status": {"type": "string"}
+      }
+    },
+    "measurements": {
+      "type": "object",
+      "required": ["floor_area", "ceiling_height"],
+      "properties": {
+        "floor_area": {"$ref": "#/$defs/measurement"},
+        "ceiling_height": {"$ref": "#/$defs/measurement"},
+        "footprint_axis_aligned_width_x": {"$ref": "#/$defs/measurement"},
+        "footprint_axis_aligned_length_z": {"$ref": "#/$defs/measurement"}
+      }
+    },
+    "room": {
+      "type": "object",
+      "required": ["room_id", "geometry_status", "polygon_xz_m", "floor_area", "ceiling_height", "walls", "openings", "opening_detection_status"],
+      "properties": {
+        "room_id": {"type": "string"},
+        "geometry_status": {"type": "string"},
+        "polygon_xz_m": {"type": "array", "items": {"type": "array", "prefixItems": [{"type": "number"}, {"type": "number"}], "minItems": 2, "maxItems": 2}},
+        "floor_area": {"$ref": "#/$defs/measurement"},
+        "ceiling_height": {"$ref": "#/$defs/measurement"},
+        "walls": {"type": "array", "items": {"type": "object"}},
+        "openings": {"type": "array"},
+        "opening_detection_status": {"type": "string"},
+        "ceiling_evidence": {"type": "string"}
+      }
+    }
+  }
+}
