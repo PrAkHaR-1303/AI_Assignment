@@ -1,0 +1,88 @@
+{
+  "capture_id": "c00a170fe1",
+  "regeneration_command": "python -m roomscan \"single_room/c00a170fe1\" --output \"outputs/single_room\"",
+  "before": {
+    "method": "raw odometry poses",
+    "footprint_area_m2": 33.741,
+    "polygon_xz_m": [
+      [
+        -4.26,
+        0.768
+      ],
+      [
+        -0.627,
+        -2.045
+      ],
+      [
+        0.476,
+        -2.343
+      ],
+      [
+        2.295,
+        0.267
+      ],
+      [
+        1.376,
+        3.339
+      ],
+      [
+        0.468,
+        4.566
+      ],
+      [
+        -2.182,
+        5.284
+      ],
+      [
+        -4.431,
+        2.829
+      ]
+    ]
+  },
+  "after": {
+    "method": "position revisit loop closure with linear translation residual distribution; vertical frame retained from odometry",
+    "footprint_area_m2": 33.725,
+    "polygon_xz_m": [
+      [
+        -4.26,
+        0.762
+      ],
+      [
+        -0.627,
+        -2.045
+      ],
+      [
+        0.476,
+        -2.343
+      ],
+      [
+        2.295,
+        0.267
+      ],
+      [
+        1.376,
+        3.333
+      ],
+      [
+        0.468,
+        4.559
+      ],
+      [
+        -2.182,
+        5.283
+      ],
+      [
+        -4.43,
+        2.823
+      ]
+    ]
+  },
+  "loop_closure": {
+    "start_frame_index": 991,
+    "end_frame_index": 1419,
+    "pre_correction_residual_m": 0.006242567556702986,
+    "translation_residual_x_m": -0.00037490000000006685,
+    "translation_residual_z_m": 0.006231300000000051
+  },
+  "interpretation": "Geometric drift ablation only; no ground truth was supplied, so area accuracy or gate movement cannot be claimed."
+}
