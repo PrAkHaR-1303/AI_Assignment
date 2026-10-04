@@ -1,28 +1,28 @@
-# Fix Loop: Sparse RGB Tier Coverage
+# Engineering Iteration Record: RGB Route Coverage
 
-**Status: experimental adapter shipped; dimensional fix not demonstrated.** This record uses only the three supplied folders and does not claim an accuracy gate passed.
+## Objective
 
-## Failure selected
+Add photo and video processing paths to the existing LiDAR reconstruction package, using only the three supplied scan folders. The RGB paths must avoid depth and confidence images and record enough diagnostics to evaluate their behavior.
 
-Before the RGB work, photo/video input was rejected: adapter coverage was 0/2. The remaining assignment risk was the absence of non-LiDAR routes. The largest measurable weakness in the supplied-data benchmark is that every eight-frame photo proxy produced zero accepted triangulated points. Video hull-area disagreement from LiDAR is 56.84% and 90.67% for the two bundles with estimates; the third video proxy has only three points.
+## Implementation
 
-The LiDAR within-scan split area differences are 26.44%, 19.97%, and 5.64%. They indicate sensitivity to sample phase, not repeat-scan repeatability.
+`roomscan/vision.py` adds separate photo and video routes. Both detect and match ORB image features, filter matches with essential-matrix RANSAC, and triangulate from synchronized metric camera poses and intrinsics. The photo route selects up to eight frames from the bundled video because no standalone photographs are supplied. Frame-ID checks, match counts, triangulated-point counts, reprojection statistics, JSON output, and SVG output are recorded.
 
-## Root-cause evidence
+## Measured results
 
-The RGB implementation uses ORB matches, an essential-matrix RANSAC filter, and triangulation against the camera poses/intrinsics bundled with each RGB video. A photo proxy samples up to eight stills from the video; the data contains no standalone still photos. The selected wide-spaced frames do not supply enough accepted overlapping feature tracks for triangulation. Video gives more matches, but point hulls still differ substantially from the LiDAR hulls and lack independent physical scoring.
-
-## Shipped change and observed result
-
-Shipped `roomscan/vision.py` with separate photo and video input paths. Both use RGB for feature observations and the paired pose/intrinsics files for metric triangulation; neither reads depth or confidence maps. Added frame-ID synchronization checks, per-pair match counts, triangulated point counts, reprojection statistics, SVG/JSON outputs, and a reproducible benchmark.
-
-| Evidence | Before | After |
+| Measure | Before iteration | After iteration |
 |---|---:|---:|
-| RGB tier adapters available | 0/2 | 2/2 experimental paths |
-| Photo proxy accepted points | No path | 0 for all 3 supplied captures |
-| Video proxy | No path | 2 sparse hulls; one insufficient-point result |
-| Accuracy gate movement | Not measurable | Not measurable; no independent ground truth |
+| RGB route implementations | 0 | 2 experimental routes |
+| Photo proxy accepted points | No route | 0 across the three bundles |
+| Video proxy | No route | 362 points / 3.146 m²; 163 points / 39.941 m²; 3 points / no area |
+| Independent accuracy comparison | No reference data | No reference data |
 
-## Next iteration boundary
+Video area differences from the same-capture LiDAR proxy are 90.67% and 56.84% for the two bundles with a reported area. The third has too few points for an area. These measurements show code-path coverage and current reconstruction behavior; they do not establish room-dimension accuracy.
 
-The current photo selection and sparse geometry do not support a room-dimension claim. Do not describe adapter coverage as accuracy success. The benchmark outputs preserve this result rather than substituting a LiDAR-derived value for a photo estimate. A meaningful accuracy fix cannot be scored from these folders because they contain no independent room dimensions, repeat capture, or separate photo-only capture.
+The LiDAR interleaved-frame split area differences are 26.44%, 19.97%, and 5.64%. They describe sensitivity to frame sampling within one scan and are not repeated-scan results.
+
+## Evaluation boundary
+
+The supplied videos do not provide independent still-photo captures or physical room dimensions. Further changes to matching parameters can be measured against the same internal proxy comparisons, but an accuracy improvement cannot be demonstrated without independent references. The current outputs preserve the observed point counts and area differences rather than substituting a different tier's estimate.
+
+See [the benchmark report](outputs/benchmark/benchmark_summary.md) and [the plan gallery](outputs/submission_preview/README.md) for the per-capture results.

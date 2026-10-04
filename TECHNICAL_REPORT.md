@@ -1,52 +1,46 @@
-# Applied AI Case Study: Three-Tier Reconstruction Prototype
+# Indoor Room Reconstruction from Supplied Scan Bundles
 
-## System and input discipline
+## Executive summary
 
-The package processes only the three supplied folders. The LiDAR route reads depth, confidence, intrinsics, and camera poses. The RGB routes read `rgb.mp4` plus synchronized `odometry.csv` and camera intrinsics; they do not read depth or confidence images. The photo route samples up to eight still frames from each bundled video because no standalone photo inputs were supplied. The RGB routes use metric camera-pose metadata, so they are pose-assisted RGB prototypes rather than strict image-only systems.
+This implementation processes the three supplied scan bundles with a depth-based LiDAR route and two pose-assisted RGB routes. It exports JSON room plans and SVG visualizations and includes a repeatable benchmark over the available data. The benchmark quantifies the behavior of the current reconstructions; it does not establish physical measurement accuracy.
 
-The local output contract is `schemas/case-study-output.schema.json`. The published schema named by the case-study brief was not included in the workspace. Every output includes assumptions and quality flags; measurements and intervals are explicitly marked uncalibrated.
+## Inputs and processing routes
 
-## Tier implementations
-
-| Tier | Processing | Result status |
+| Route | Input and method | Result on supplied bundles |
 |---|---|---|
-| LiDAR | Project sampled depth points through the paired camera poses; estimate a convex-hull footprint and candidate edges. Apply one conservative translation correction when a trajectory revisit is detected. | Runs on all three supplied bundles. Hulls can include furniture or miss unseen boundaries. |
-| Photo proxy | Select 2-8 RGB frames from the supplied video, detect ORB features, match pairs, reject outliers with an essential-matrix RANSAC step, and triangulate using synchronized metric poses. | The supplied proxies produce zero accepted 3D points; no photo area is reported. |
-| Video proxy | Sample RGB frames, detect/match ORB features, reject outliers, and triangulate against synchronized metric poses. | Two bundles produce sparse hulls; the ceiling bundle produces only three points and no area. Results disagree strongly with the LiDAR hulls. |
+| LiDAR | Project sampled depth returns with camera intrinsics and poses; estimate a convex-hull footprint; apply a conservative translational correction when a trajectory revisit is detected. | Produces an area proxy and plan output for each bundle. Hulls may include furniture or omit unseen boundaries. |
+| Photo proxy | Select up to eight frames from `rgb.mp4`; match ORB features with essential-matrix RANSAC; triangulate using the paired metric camera poses and intrinsics. | Zero accepted 3D points on each supplied bundle. No footprint area is reported. |
+| Video proxy | Sample RGB frames; match and filter ORB features; triangulate with the paired camera poses and intrinsics. | Two bundles produce sparse point hulls. The ceiling bundle produces three points and no area. |
 
-The OpenCV dependency is isolated in `requirements-vision.txt`; the original LiDAR route remains standard-library-only. The video clips are HEVC and OpenCV's FFmpeg backend decodes them locally. RGB frame counts match the associated odometry rows, and the implementation checks frame IDs before using a pose.
+The RGB routes use synchronized metadata from the same export and do not read the `depth/` or `confidence/` directories. The photo input is a frame-sampled proxy because the supplied folders do not contain independent still photographs. The local output contract is [schemas/case-study-output.schema.json](schemas/case-study-output.schema.json); the published schema referenced by the case-study brief was not included in the workspace.
 
-## Data-derived benchmark
+## Benchmark results
 
-The benchmark reruns LiDAR with a fixed frame and pixel stride, runs both RGB proxies, and computes a pair of disjoint interleaved LiDAR frame subsets per capture. The RGB/LiDAR comparison is an internal modality comparison. The split comparison measures sampling sensitivity within one capture.
+The benchmark used frame stride 30, pixel stride 6, and a cap of 100 video frames. Areas below are in square metres and are geometric proxies.
 
-| Capture | LiDAR area proxy (m²) | Photo points | Video area proxy (m²) | Video/LiDAR area difference | LiDAR split area difference |
-|---|---:|---:|---:|---:|---:|
-| `single_room` | 33.725 | 0 | 3.146 | 90.67% | 26.44% |
-| `single_scan_floor_only` | 92.541 | 0 | 39.941 | 56.84% | 19.97% |
-| `single_scan_with_ceiling` | 176.161 | 0 | Not available (3 points) | Not available | 5.64% |
+| Capture | LiDAR area | Photo points | Video points | Video area | Video/LiDAR area difference | LiDAR split area difference |
+|---|---:|---:|---:|---:|---:|---:|
+| `single_room` | 33.725 | 0 | 362 | 3.146 | 90.67% | 26.44% |
+| `single_scan_floor_only` | 92.541 | 0 | 163 | 39.941 | 56.84% | 19.97% |
+| `single_scan_with_ceiling` | 176.161 | 0 | 3 | Not available | Not available | 5.64% |
 
-These are geometric proxies, not measured room dimensions. The area disagreements show that the current sparse RGB reconstruction is not reliable enough to stand in for the LiDAR result. The split differences are not repeat-scan results. Full per-tier outputs and machine-readable measurements are under `outputs/benchmark/`.
+The cross-modal differences compare outputs from the same capture and are diagnostic consistency measures, not errors against independent truth. The LiDAR split values compare interleaved frame subsets from one scan and describe sampling sensitivity, not repeated-capture repeatability. The [benchmark report](outputs/benchmark/benchmark_summary.md) contains the full interpretation and machine-readable data.
 
-## Error budget and calibration
+## Evaluation scope and calibration
 
-The dominant risks are camera-pose error, image/pose synchronization, limited RGB overlap, sparse feature triangulation, depth-to-camera assumptions in the LiDAR route, incomplete wall coverage, and furniture entering convex hulls. The RGB output's metric scale depends on bundled camera poses. The photo proxy is also derived from video frames rather than a separate still capture.
+Current 95% intervals use tier-dependent heuristic allowances and are tagged `uncalibrated_assumption`. They are not empirical confidence intervals. No tape or laser reference dimensions are present in the supplied folders, so physical wall-length, footprint-area, and ceiling-height accuracy cannot be scored from this dataset.
 
-Current 95% intervals use tier-dependent heuristic allowances and are tagged `uncalibrated_assumption`. They are not empirical confidence intervals. No laser/tape ground truth is present, so wall-length error, floor-area error, ceiling error, and the brief's numeric accuracy gates cannot be evaluated.
+The three folders are independent single-scan exports. They do not include a repeated capture of the same room, a connected multi-room walkthrough, an opening inventory, staged-damage labels, a pricing schedule, consumer-app exports, or capture-device/app identification. As a result, repeatability, connected-room adjacency, opening-width performance, damage classification, concealed-damage decisions, scope pricing, and consumer-app comparisons are outside the evidence available here. These fields are represented as unassessed in outputs where applicable.
 
-## Open case-study requirements
-
-The folders contain independent single-scan bundles. They do not include a connected three-room walk, separate still-photo capture, repeat scan of the same room, staged-damage labels, opening inventory, measured physical dimensions, named consumer-app exports, or capture-device/app metadata. Consequently this implementation does not establish opening width, ceiling accuracy, repeatability, whole-property adjacency, damage/concealed-damage detection, scope pricing, or consumer-app comparison. These outputs remain explicitly `not_assessed`.
-
-The existing drift ablation compares raw and corrected pose geometry, but it has no physical reference. The benchmark exposes an additional sampling-stability problem: area changes across the two disjoint subsets by 5.64%-26.44%. No accuracy improvement is claimed from that internal measure.
+Principal geometric risks include pose error, incomplete wall coverage, limited RGB feature overlap, depth-to-camera assumptions, and furniture entering convex hulls. The RGB metric scale depends on the supplied camera poses. These risks are reflected in the quality flags and output notes.
 
 ## Reproduction
 
-From the workspace root, install OpenCV for the RGB routes and run:
+From the repository root, place the same three supplied folders beside `README.md`, then run:
 
 ```powershell
 python -m pip install -r requirements-vision.txt
 python -m roomscan.benchmark --root . --output outputs/benchmark --frame-stride 30 --pixel-stride 6 --max-video-frames 100
 ```
 
-The supplied raw folders are intentionally ignored by Git. Reproduction from a clone requires those same folders to be copied beside the repository; no other dataset is used.
+The benchmark writes JSON, CSV, Markdown, and per-tier plans under `outputs/benchmark/`. The [submission preview gallery](outputs/submission_preview/README.md) contains compact copies of the nine JSON/SVG plans for direct review.

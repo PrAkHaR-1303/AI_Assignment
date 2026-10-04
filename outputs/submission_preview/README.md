@@ -1,6 +1,6 @@
 ﻿# Submission Preview Gallery
 
-Compact plan outputs generated from the three supplied scan folders. These are included so a reviewer can inspect the artifacts without downloading the raw sensor bundles. They are geometric reconstruction proxies, not physically validated room plans. The photo route produces zero accepted 3D points in all three scans; the sparse video route is incomplete and differs substantially from LiDAR. See the [benchmark measurements](../benchmark/benchmark_summary.md) and [submission status](../../SUBMISSION_STATUS.md) for the full caveats.
+Compact plan outputs generated from the three supplied scan folders. A reviewer can inspect these artifacts without downloading the raw sensor bundles. The outputs are geometric reconstruction estimates. The photo route produces zero accepted 3D points in all three scans; video results are sparse, as detailed in the [benchmark measurements](../benchmark/benchmark_summary.md) and [technical report](../../TECHNICAL_REPORT.md).
 
 | Supplied bundle | LiDAR | Photo proxy | Video proxy |
 |---|---|---|---|
