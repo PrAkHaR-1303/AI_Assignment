@@ -6,6 +6,8 @@
 
 The benchmark command completed for all three bundles using Python and the optional OpenCV dependency. It generated LiDAR, photo-proxy, and video-proxy results under `outputs/benchmark/runs/` and summary tables under `outputs/benchmark/`.
 
+Compact JSON/SVG copies of all nine tier outputs are included in the [submission preview gallery](outputs/submission_preview/README.md) for direct review from the repository.
+
 | Bundle | LiDAR hull area proxy (m²) | Photo frames / accepted points | Video hull area proxy (m²) | Video vs LiDAR area difference | LiDAR split area difference |
 |---|---:|---:|---:|---:|---:|
 | `single_room` | 33.725 | 8 / 0 | 3.146 | 90.67% | 26.44% |

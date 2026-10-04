@@ -1,0 +1,1194 @@
+{
+  "schema_version": "applied-ai-case-study/0.1",
+  "capture_id": "1a8384c3f6",
+  "capture_path": "single_scan_floor_only/1a8384c3f6",
+  "input_tier": "video",
+  "processing_status": "outline_estimated_pose_assisted_rgb",
+  "units": "m",
+  "assumptions": [
+    "RGB observations come from the bundled rgb.mp4; no depth or confidence PNG is read by this tier.",
+    "Camera poses, metric scale, and per-frame camera intrinsics are read from the synchronized odometry.csv bundled with the RGB capture.",
+    "The photo tier selects up to eight still frames from the bundled video because no standalone photo capture is included in the supplied folders.",
+    "Sparse ORB matches are triangulated using known bundled poses; the outline is a convex hull of observed 3D feature points, not a validated wall reconstruction."
+  ],
+  "measurements": {
+    "floor_area": {
+      "value": 39.941,
+      "unit": "m2",
+      "interval_95": {
+        "lower": 35.947,
+        "upper": 43.935,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "visual_sparse_proxy_uncalibrated"
+    },
+    "ceiling_height": {
+      "value": null,
+      "unit": "m",
+      "interval_95": null,
+      "status": "not_observed"
+    },
+    "footprint_axis_aligned_width_x": {
+      "value": 7.177,
+      "unit": "m",
+      "interval_95": {
+        "lower": 6.459,
+        "upper": 7.895,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "visual_sparse_proxy_uncalibrated"
+    },
+    "footprint_axis_aligned_length_z": {
+      "value": 9.917,
+      "unit": "m",
+      "interval_95": {
+        "lower": 8.925,
+        "upper": 10.909,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "visual_sparse_proxy_uncalibrated"
+    }
+  },
+  "rooms": [
+    {
+      "room_id": "1a8384c3f6",
+      "geometry_status": "outline_estimated_pose_assisted_rgb",
+      "polygon_xz_m": [
+        [
+          -5.416,
+          4.5
+        ],
+        [
+          -4.671,
+          0.657
+        ],
+        [
+          -2.005,
+          -0.826
+        ],
+        [
+          1.761,
+          4.029
+        ],
+        [
+          -2.908,
+          9.091
+        ]
+      ],
+      "floor_area": {
+        "value": 39.941,
+        "unit": "m2",
+        "interval_95": {
+          "lower": 35.947,
+          "upper": 43.935,
+          "confidence_level": 0.95,
+          "calibration_status": "uncalibrated_assumption"
+        },
+        "status": "visual_sparse_proxy_uncalibrated"
+      },
+      "ceiling_height": {
+        "value": null,
+        "unit": "m",
+        "interval_95": null,
+        "status": "not_observed"
+      },
+      "walls": [
+        {
+          "wall_id": "wall_01",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -5.416,
+            4.5
+          ],
+          "end_xz_m": [
+            -4.671,
+            0.657
+          ],
+          "length": {
+            "value": 3.915,
+            "unit": "m",
+            "interval_95": {
+              "lower": 3.523,
+              "upper": 4.306,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "visual_sparse_proxy_uncalibrated"
+          }
+        },
+        {
+          "wall_id": "wall_02",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -4.671,
+            0.657
+          ],
+          "end_xz_m": [
+            -2.005,
+            -0.826
+          ],
+          "length": {
+            "value": 3.05,
+            "unit": "m",
+            "interval_95": {
+              "lower": 2.745,
+              "upper": 3.355,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "visual_sparse_proxy_uncalibrated"
+          }
+        },
+        {
+          "wall_id": "wall_03",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -2.005,
+            -0.826
+          ],
+          "end_xz_m": [
+            1.761,
+            4.029
+          ],
+          "length": {
+            "value": 6.144,
+            "unit": "m",
+            "interval_95": {
+              "lower": 5.53,
+              "upper": 6.758,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "visual_sparse_proxy_uncalibrated"
+          }
+        },
+        {
+          "wall_id": "wall_04",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            1.761,
+            4.029
+          ],
+          "end_xz_m": [
+            -2.908,
+            9.091
+          ],
+          "length": {
+            "value": 6.886,
+            "unit": "m",
+            "interval_95": {
+              "lower": 6.197,
+              "upper": 7.575,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "visual_sparse_proxy_uncalibrated"
+          }
+        },
+        {
+          "wall_id": "wall_05",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -2.908,
+            9.091
+          ],
+          "end_xz_m": [
+            -5.416,
+            4.5
+          ],
+          "length": {
+            "value": 5.231,
+            "unit": "m",
+            "interval_95": {
+              "lower": 4.708,
+              "upper": 5.754,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "visual_sparse_proxy_uncalibrated"
+          }
+        }
+      ],
+      "openings": [],
+      "opening_detection_status": "not_implemented",
+      "ceiling_evidence": "not_observed"
+    }
+  ],
+  "stitched_property_plan": {
+    "status": "single_capture_only",
+    "rooms": [
+      "1a8384c3f6"
+    ],
+    "adjacencies": [],
+    "note": "The supplied folders contain independent single-scan captures, not a connected multi-room route."
+  },
+  "damage_regions": {
+    "status": "not_assessed",
+    "items": [],
+    "classes": [],
+    "note": "RGB feature tracking is not a damage classifier; the supplied folders have no damage labels."
+  },
+  "concealed_damage": {
+    "status": "not_assessed",
+    "flags": [],
+    "rules_fired": [],
+    "note": "No concealed-damage labels or validated sensor rules are present in the supplied folders."
+  },
+  "scope_line_items": {
+    "status": "not_assessed",
+    "items": [],
+    "note": "No validated damage regions or price schedule are present."
+  },
+  "confidence_intervals": {
+    "calibration_status": "uncalibrated_no_independent_ground_truth",
+    "method": "Heuristic ±10% relative allowance or stated absolute floor; not empirically calibrated."
+  },
+  "drift_correction": {
+    "method": "Use paired odometry.csv metric camera poses directly; no visual loop-closure optimization",
+    "applied": false,
+    "limitations": "This RGB result is pose-assisted, not an image-only tier, and uses no independent ground truth."
+  },
+  "capture_statistics": {
+    "video_frame_count_reported": 5251,
+    "video_fps_reported": 45.74705967765355,
+    "video_width_px": 1920,
+    "video_height_px": 1440,
+    "decoded_selected_frame_count": 99,
+    "decode_backend": "FFMPEG",
+    "opencv_version": "5.0.0",
+    "orb_scale_x": 0.5,
+    "orb_scale_y": 0.5,
+    "rgb_decoded_frame_count": 99,
+    "rgb_candidate_frames": 99,
+    "rgb_selected_frame_ids": [
+      0,
+      54,
+      108,
+      162,
+      216,
+      270,
+      324,
+      378,
+      432,
+      486,
+      540,
+      594,
+      648,
+      702,
+      756,
+      810,
+      864,
+      918,
+      972,
+      1026,
+      1080,
+      1134,
+      1188,
+      1242,
+      1296,
+      1350,
+      1404,
+      1458,
+      1512,
+      1566,
+      1620,
+      1674,
+      1728,
+      1782,
+      1836,
+      1890,
+      1944,
+      1998,
+      2052,
+      2106,
+      2160,
+      2214,
+      2268,
+      2322,
+      2376,
+      2430,
+      2484,
+      2538,
+      2592,
+      2646,
+      2700,
+      2754,
+      2808,
+      2862,
+      2916,
+      2970,
+      3024,
+      3078,
+      3132,
+      3186,
+      3240,
+      3294,
+      3348,
+      3402,
+      3456,
+      3510,
+      3564,
+      3618,
+      3672,
+      3726,
+      3780,
+      3834,
+      3888,
+      3942,
+      3996,
+      4050,
+      4104,
+      4158,
+      4212,
+      4266,
+      4320,
+      4374,
+      4428,
+      4482,
+      4536,
+      4590,
+      4644,
+      4698,
+      4752,
+      4806,
+      4860,
+      4914,
+      4968,
+      5022,
+      5076,
+      5130,
+      5184,
+      5238,
+      5248
+    ],
+    "photo_still_count": null,
+    "photo_still_limit": null,
+    "orb_keypoint_counts": {
+      "0": 2333,
+      "54": 1073,
+      "108": 39,
+      "162": 959,
+      "216": 3080,
+      "270": 3124,
+      "324": 3176,
+      "378": 3151,
+      "432": 113,
+      "486": 358,
+      "540": 1150,
+      "594": 1597,
+      "648": 3162,
+      "702": 2017,
+      "756": 1640,
+      "810": 517,
+      "864": 65,
+      "918": 2186,
+      "972": 2175,
+      "1026": 1012,
+      "1080": 1277,
+      "1134": 345,
+      "1188": 1538,
+      "1242": 1423,
+      "1296": 513,
+      "1350": 844,
+      "1404": 962,
+      "1458": 2123,
+      "1512": 2554,
+      "1566": 200,
+      "1620": 177,
+      "1674": 279,
+      "1728": 74,
+      "1782": 25,
+      "1836": 57,
+      "1890": 624,
+      "1944": 1466,
+      "1998": 888,
+      "2052": 1396,
+      "2106": 2148,
+      "2160": 3082,
+      "2214": 2328,
+      "2268": 1775,
+      "2322": 1745,
+      "2376": 2168,
+      "2430": 1483,
+      "2484": 3200,
+      "2538": 2531,
+      "2592": 303,
+      "2646": 92,
+      "2700": 841,
+      "2754": 3160,
+      "2808": 3074,
+      "2862": 2508,
+      "2916": 1511,
+      "2970": 520,
+      "3024": 2730,
+      "3078": 3200,
+      "3132": 611,
+      "3186": 136,
+      "3240": 71,
+      "3294": 171,
+      "3348": 1580,
+      "3402": 3059,
+      "3456": 1732,
+      "3510": 620,
+      "3564": 214,
+      "3618": 3113,
+      "3672": 0,
+      "3726": 1644,
+      "3780": 1260,
+      "3834": 235,
+      "3888": 2994,
+      "3942": 3200,
+      "3996": 1859,
+      "4050": 3200,
+      "4104": 2955,
+      "4158": 1161,
+      "4212": 190,
+      "4266": 153,
+      "4320": 1585,
+      "4374": 1085,
+      "4428": 9,
+      "4482": 1263,
+      "4536": 2332,
+      "4590": 907,
+      "4644": 642,
+      "4698": 1740,
+      "4752": 630,
+      "4806": 1616,
+      "4860": 2982,
+      "4914": 2645,
+      "4968": 2925,
+      "5022": 2919,
+      "5076": 63,
+      "5130": 13,
+      "5184": 1991,
+      "5238": 1899,
+      "5248": 2057
+    },
+    "visual_pair_count": 98,
+    "visual_match_count": 8153,
+    "essential_matrix_inlier_count": 6362,
+    "triangulated_unique_point_count": 163,
+    "median_reprojection_error_px": 3.443,
+    "processing_seconds": 34.562,
+    "odometry_pose_count": 5251,
+    "odometry_video_frame_count_match": true
+  },
+  "camera_matrix_rgb": [
+    [
+      1598.7919,
+      0.0,
+      955.38934
+    ],
+    [
+      0.0,
+      1598.7919,
+      717.7579
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "trajectory_center_xz_m": [
+    -2.128,
+    3.382
+  ],
+  "rendered_plan": "plan.svg",
+  "quality_flags": [
+    "Metric scale and camera poses come from the paired odometry export, so this is not a strict photo-only/video-only reconstruction.",
+    "Wall edges are sparse-feature convex-hull candidates and may include furniture or omit unobserved areas.",
+    "All measurement intervals are uncalibrated; no independent laser/tape references are present."
+  ],
+  "visual_pairs": [
+    {
+      "frame_a": 0,
+      "frame_b": 54,
+      "matches": 231,
+      "visual_inliers": 191,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 54,
+      "frame_b": 108,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 108,
+      "frame_b": 162,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 162,
+      "frame_b": 216,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 216,
+      "frame_b": 270,
+      "matches": 448,
+      "visual_inliers": 408,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 270,
+      "frame_b": 324,
+      "matches": 450,
+      "visual_inliers": 386,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 324,
+      "frame_b": 378,
+      "matches": 357,
+      "visual_inliers": 305,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 378,
+      "frame_b": 432,
+      "matches": 59,
+      "visual_inliers": 31,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 432,
+      "frame_b": 486,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 486,
+      "frame_b": 540,
+      "matches": 26,
+      "visual_inliers": 21,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 540,
+      "frame_b": 594,
+      "matches": 48,
+      "visual_inliers": 34,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 594,
+      "frame_b": 648,
+      "matches": 91,
+      "visual_inliers": 61,
+      "triangulated_points": 3
+    },
+    {
+      "frame_a": 648,
+      "frame_b": 702,
+      "matches": 90,
+      "visual_inliers": 58,
+      "triangulated_points": 6
+    },
+    {
+      "frame_a": 702,
+      "frame_b": 756,
+      "matches": 58,
+      "visual_inliers": 35,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 756,
+      "frame_b": 810,
+      "matches": 26,
+      "visual_inliers": 15,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 810,
+      "frame_b": 864,
+      "matches": 5,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 864,
+      "frame_b": 918,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 918,
+      "frame_b": 972,
+      "matches": 9,
+      "visual_inliers": 6,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 972,
+      "frame_b": 1026,
+      "matches": 18,
+      "visual_inliers": 10,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1026,
+      "frame_b": 1080,
+      "matches": 35,
+      "visual_inliers": 25,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1080,
+      "frame_b": 1134,
+      "matches": 77,
+      "visual_inliers": 57,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1134,
+      "frame_b": 1188,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1188,
+      "frame_b": 1242,
+      "matches": 144,
+      "visual_inliers": 106,
+      "triangulated_points": 16
+    },
+    {
+      "frame_a": 1242,
+      "frame_b": 1296,
+      "matches": 43,
+      "visual_inliers": 28,
+      "triangulated_points": 4
+    },
+    {
+      "frame_a": 1296,
+      "frame_b": 1350,
+      "matches": 43,
+      "visual_inliers": 30,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1350,
+      "frame_b": 1404,
+      "matches": 56,
+      "visual_inliers": 36,
+      "triangulated_points": 1
+    },
+    {
+      "frame_a": 1404,
+      "frame_b": 1458,
+      "matches": 63,
+      "visual_inliers": 55,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1458,
+      "frame_b": 1512,
+      "matches": 50,
+      "visual_inliers": 28,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1512,
+      "frame_b": 1566,
+      "matches": 9,
+      "visual_inliers": 7,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1566,
+      "frame_b": 1620,
+      "matches": 23,
+      "visual_inliers": 20,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1620,
+      "frame_b": 1674,
+      "matches": 13,
+      "visual_inliers": 12,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1674,
+      "frame_b": 1728,
+      "matches": 18,
+      "visual_inliers": 16,
+      "triangulated_points": 1
+    },
+    {
+      "frame_a": 1728,
+      "frame_b": 1782,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1782,
+      "frame_b": 1836,
+      "matches": 5,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1836,
+      "frame_b": 1890,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1890,
+      "frame_b": 1944,
+      "matches": 13,
+      "visual_inliers": 10,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1944,
+      "frame_b": 1998,
+      "matches": 13,
+      "visual_inliers": 9,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1998,
+      "frame_b": 2052,
+      "matches": 7,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2052,
+      "frame_b": 2106,
+      "matches": 53,
+      "visual_inliers": 34,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2106,
+      "frame_b": 2160,
+      "matches": 324,
+      "visual_inliers": 247,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2160,
+      "frame_b": 2214,
+      "matches": 268,
+      "visual_inliers": 183,
+      "triangulated_points": 33
+    },
+    {
+      "frame_a": 2214,
+      "frame_b": 2268,
+      "matches": 168,
+      "visual_inliers": 121,
+      "triangulated_points": 6
+    },
+    {
+      "frame_a": 2268,
+      "frame_b": 2322,
+      "matches": 375,
+      "visual_inliers": 307,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2322,
+      "frame_b": 2376,
+      "matches": 271,
+      "visual_inliers": 189,
+      "triangulated_points": 13
+    },
+    {
+      "frame_a": 2376,
+      "frame_b": 2430,
+      "matches": 107,
+      "visual_inliers": 74,
+      "triangulated_points": 1
+    },
+    {
+      "frame_a": 2430,
+      "frame_b": 2484,
+      "matches": 28,
+      "visual_inliers": 15,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2484,
+      "frame_b": 2538,
+      "matches": 11,
+      "visual_inliers": 7,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2538,
+      "frame_b": 2592,
+      "matches": 10,
+      "visual_inliers": 8,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2592,
+      "frame_b": 2646,
+      "matches": 11,
+      "visual_inliers": 11,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2646,
+      "frame_b": 2700,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2700,
+      "frame_b": 2754,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2754,
+      "frame_b": 2808,
+      "matches": 78,
+      "visual_inliers": 52,
+      "triangulated_points": 5
+    },
+    {
+      "frame_a": 2808,
+      "frame_b": 2862,
+      "matches": 377,
+      "visual_inliers": 284,
+      "triangulated_points": 66
+    },
+    {
+      "frame_a": 2862,
+      "frame_b": 2916,
+      "matches": 531,
+      "visual_inliers": 387,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2916,
+      "frame_b": 2970,
+      "matches": 12,
+      "visual_inliers": 9,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2970,
+      "frame_b": 3024,
+      "matches": 54,
+      "visual_inliers": 44,
+      "triangulated_points": 29
+    },
+    {
+      "frame_a": 3024,
+      "frame_b": 3078,
+      "matches": 41,
+      "visual_inliers": 26,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3078,
+      "frame_b": 3132,
+      "matches": 8,
+      "visual_inliers": 6,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3132,
+      "frame_b": 3186,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3186,
+      "frame_b": 3240,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3240,
+      "frame_b": 3294,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3294,
+      "frame_b": 3348,
+      "matches": 19,
+      "visual_inliers": 16,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3348,
+      "frame_b": 3402,
+      "matches": 5,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3402,
+      "frame_b": 3456,
+      "matches": 15,
+      "visual_inliers": 9,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3456,
+      "frame_b": 3510,
+      "matches": 21,
+      "visual_inliers": 10,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3510,
+      "frame_b": 3564,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3564,
+      "frame_b": 3618,
+      "matches": 6,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3618,
+      "frame_b": 3672,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3672,
+      "frame_b": 3726,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3726,
+      "frame_b": 3780,
+      "matches": 199,
+      "visual_inliers": 137,
+      "triangulated_points": 34
+    },
+    {
+      "frame_a": 3780,
+      "frame_b": 3834,
+      "matches": 5,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3834,
+      "frame_b": 3888,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3888,
+      "frame_b": 3942,
+      "matches": 21,
+      "visual_inliers": 8,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3942,
+      "frame_b": 3996,
+      "matches": 25,
+      "visual_inliers": 14,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 3996,
+      "frame_b": 4050,
+      "matches": 41,
+      "visual_inliers": 30,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4050,
+      "frame_b": 4104,
+      "matches": 53,
+      "visual_inliers": 35,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4104,
+      "frame_b": 4158,
+      "matches": 18,
+      "visual_inliers": 12,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4158,
+      "frame_b": 4212,
+      "matches": 10,
+      "visual_inliers": 10,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4212,
+      "frame_b": 4266,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4266,
+      "frame_b": 4320,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4320,
+      "frame_b": 4374,
+      "matches": 84,
+      "visual_inliers": 66,
+      "triangulated_points": 9
+    },
+    {
+      "frame_a": 4374,
+      "frame_b": 4428,
+      "matches": 61,
+      "visual_inliers": 61,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4428,
+      "frame_b": 4482,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4482,
+      "frame_b": 4536,
+      "matches": 62,
+      "visual_inliers": 44,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4536,
+      "frame_b": 4590,
+      "matches": 38,
+      "visual_inliers": 24,
+      "triangulated_points": 8
+    },
+    {
+      "frame_a": 4590,
+      "frame_b": 4644,
+      "matches": 73,
+      "visual_inliers": 51,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4644,
+      "frame_b": 4698,
+      "matches": 87,
+      "visual_inliers": 64,
+      "triangulated_points": 10
+    },
+    {
+      "frame_a": 4698,
+      "frame_b": 4752,
+      "matches": 13,
+      "visual_inliers": 8,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4752,
+      "frame_b": 4806,
+      "matches": 7,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4806,
+      "frame_b": 4860,
+      "matches": 88,
+      "visual_inliers": 60,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4860,
+      "frame_b": 4914,
+      "matches": 307,
+      "visual_inliers": 244,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4914,
+      "frame_b": 4968,
+      "matches": 344,
+      "visual_inliers": 282,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4968,
+      "frame_b": 5022,
+      "matches": 37,
+      "visual_inliers": 23,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5022,
+      "frame_b": 5076,
+      "matches": 25,
+      "visual_inliers": 16,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5076,
+      "frame_b": 5130,
+      "matches": 12,
+      "visual_inliers": 12,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5130,
+      "frame_b": 5184,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5184,
+      "frame_b": 5238,
+      "matches": 227,
+      "visual_inliers": 209,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5238,
+      "frame_b": 5248,
+      "matches": 966,
+      "visual_inliers": 913,
+      "triangulated_points": 0
+    }
+  ]
+}

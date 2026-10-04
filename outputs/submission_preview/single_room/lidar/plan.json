@@ -1,0 +1,386 @@
+{
+  "schema_version": "applied-ai-case-study/0.1",
+  "capture_id": "c00a170fe1",
+  "capture_path": "single_room/c00a170fe1",
+  "input_tier": "lidar",
+  "processing_status": "outline_estimated",
+  "units": "m",
+  "assumptions": [
+    "16-bit grayscale depth is interpreted as millimeters, based on value range and capture layout.",
+    "Camera coordinates use x-right, y-up, z-forward-negated and pose quaternions are xyzw camera-to-world rotations.",
+    "Depth intrinsics are scaled from camera_matrix.csv using the inferred RGB principal-point dimensions.",
+    "The outline is a convex hull of sampled wall-band points; it is not a watertight or orthogonal room model."
+  ],
+  "measurements": {
+    "floor_area": {
+      "value": 33.725,
+      "unit": "m2",
+      "interval_95": {
+        "lower": 32.039,
+        "upper": 35.411,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "convex_hull_proxy_uncalibrated"
+    },
+    "ceiling_height": {
+      "value": null,
+      "unit": "m",
+      "interval_95": null,
+      "status": "not_observed"
+    },
+    "footprint_axis_aligned_width_x": {
+      "value": 6.725,
+      "unit": "m",
+      "interval_95": {
+        "lower": 6.389,
+        "upper": 7.061,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "estimated"
+    },
+    "footprint_axis_aligned_length_z": {
+      "value": 7.626,
+      "unit": "m",
+      "interval_95": {
+        "lower": 7.245,
+        "upper": 8.007,
+        "confidence_level": 0.95,
+        "calibration_status": "uncalibrated_assumption"
+      },
+      "status": "estimated"
+    }
+  },
+  "rooms": [
+    {
+      "room_id": "c00a170fe1",
+      "geometry_status": "outline_estimated",
+      "polygon_xz_m": [
+        [
+          -4.26,
+          0.762
+        ],
+        [
+          -0.627,
+          -2.045
+        ],
+        [
+          0.476,
+          -2.343
+        ],
+        [
+          2.295,
+          0.267
+        ],
+        [
+          1.376,
+          3.333
+        ],
+        [
+          0.468,
+          4.559
+        ],
+        [
+          -2.182,
+          5.283
+        ],
+        [
+          -4.43,
+          2.823
+        ]
+      ],
+      "floor_area": {
+        "value": 33.725,
+        "unit": "m2",
+        "interval_95": {
+          "lower": 32.039,
+          "upper": 35.411,
+          "confidence_level": 0.95,
+          "calibration_status": "uncalibrated_assumption"
+        },
+        "status": "convex_hull_proxy_uncalibrated"
+      },
+      "ceiling_height": {
+        "value": null,
+        "unit": "m",
+        "interval_95": null,
+        "status": "not_observed"
+      },
+      "walls": [
+        {
+          "wall_id": "wall_01",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -4.26,
+            0.762
+          ],
+          "end_xz_m": [
+            -0.627,
+            -2.045
+          ],
+          "length": {
+            "value": 4.59,
+            "unit": "m",
+            "interval_95": {
+              "lower": 4.361,
+              "upper": 4.819,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_02",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -0.627,
+            -2.045
+          ],
+          "end_xz_m": [
+            0.476,
+            -2.343
+          ],
+          "length": {
+            "value": 1.143,
+            "unit": "m",
+            "interval_95": {
+              "lower": 1.043,
+              "upper": 1.243,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_03",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            0.476,
+            -2.343
+          ],
+          "end_xz_m": [
+            2.295,
+            0.267
+          ],
+          "length": {
+            "value": 3.181,
+            "unit": "m",
+            "interval_95": {
+              "lower": 3.022,
+              "upper": 3.34,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_04",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            2.295,
+            0.267
+          ],
+          "end_xz_m": [
+            1.376,
+            3.333
+          ],
+          "length": {
+            "value": 3.201,
+            "unit": "m",
+            "interval_95": {
+              "lower": 3.041,
+              "upper": 3.361,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_05",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            1.376,
+            3.333
+          ],
+          "end_xz_m": [
+            0.468,
+            4.559
+          ],
+          "length": {
+            "value": 1.526,
+            "unit": "m",
+            "interval_95": {
+              "lower": 1.426,
+              "upper": 1.626,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_06",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            0.468,
+            4.559
+          ],
+          "end_xz_m": [
+            -2.182,
+            5.283
+          ],
+          "length": {
+            "value": 2.747,
+            "unit": "m",
+            "interval_95": {
+              "lower": 2.61,
+              "upper": 2.884,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_07",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -2.182,
+            5.283
+          ],
+          "end_xz_m": [
+            -4.43,
+            2.823
+          ],
+          "length": {
+            "value": 3.332,
+            "unit": "m",
+            "interval_95": {
+              "lower": 3.165,
+              "upper": 3.499,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        },
+        {
+          "wall_id": "wall_08",
+          "classification_status": "candidate_hull_edge_unverified_as_wall",
+          "start_xz_m": [
+            -4.43,
+            2.823
+          ],
+          "end_xz_m": [
+            -4.26,
+            0.762
+          ],
+          "length": {
+            "value": 2.069,
+            "unit": "m",
+            "interval_95": {
+              "lower": 1.966,
+              "upper": 2.172,
+              "confidence_level": 0.95,
+              "calibration_status": "uncalibrated_assumption"
+            },
+            "status": "estimated"
+          }
+        }
+      ],
+      "openings": [],
+      "opening_detection_status": "not_implemented",
+      "ceiling_evidence": "not_confirmed"
+    }
+  ],
+  "stitched_property_plan": {
+    "status": "single_capture_only",
+    "rooms": [
+      "c00a170fe1"
+    ],
+    "adjacencies": [],
+    "note": "The supplied data contains independent single-scan folders and no connector room, shared landmarks, or room-level ground truth for multi-room registration."
+  },
+  "damage_regions": {
+    "status": "not_assessed",
+    "items": [],
+    "classes": [],
+    "note": "No trained damage model or staged damage labels are provided."
+  },
+  "concealed_damage": {
+    "status": "not_assessed",
+    "flags": [],
+    "rules_fired": [],
+    "note": "No moisture, thermal, or material-specific evidence is available in the supplied sensor bundle."
+  },
+  "scope_line_items": {
+    "status": "not_assessed",
+    "items": [],
+    "note": "Line items require validated damage regions and surface assignments."
+  },
+  "quality_flags": [
+    "Room boundary is a convex hull of sampled 3D returns and may include furniture or unobserved space.",
+    "Hull edges are candidates, not verified wall surfaces.",
+    "Measurement intervals are not calibrated against independent ground truth."
+  ],
+  "confidence_intervals": {
+    "calibration_status": "uncalibrated_no_ground_truth",
+    "method": "Conservative heuristic ±5% relative or stated absolute floor; not empirically calibrated."
+  },
+  "drift_correction": {
+    "method": "position revisit loop closure with linear translation residual distribution; vertical frame retained from odometry",
+    "applied": true,
+    "closure": {
+      "start_frame_index": 991,
+      "end_frame_index": 1419,
+      "pre_correction_residual_m": 0.006242567556702986,
+      "translation_residual_x_m": -0.00037490000000006685,
+      "translation_residual_z_m": 0.006231300000000051
+    },
+    "fallback": "no geometric loop closure found; pose positions remain unchanged",
+    "limitations": "Single translational closure only; no rotation graph, wall-plane optimization, or multi-room constraints."
+  },
+  "capture_statistics": {
+    "depth_frames_available": 1715,
+    "odometry_rows": 1715,
+    "imu_rows": 3689,
+    "processed_depth_frames": 58,
+    "frame_stride": 30,
+    "frame_offset": 0,
+    "pixel_stride": 6,
+    "missing_pose_for_selected_frame_count": 0,
+    "selected_frames_without_confidence_count": 0,
+    "duration_seconds": 37.172,
+    "processing_seconds": 3.932,
+    "rgb_video_available": true,
+    "rgb_video_decoded": false,
+    "ceiling_capture_operator_confirmed": false
+  },
+  "camera_matrix_rgb": [
+    [
+      1599.6957,
+      0.0,
+      955.5105
+    ],
+    [
+      0.0,
+      1599.6957,
+      717.8084
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "trajectory_center_xz_m": [
+    -0.652,
+    1.932
+  ],
+  "rendered_plan": "plan.svg"
+}

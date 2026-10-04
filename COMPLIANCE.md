@@ -11,6 +11,7 @@ Statuses below distinguish implemented code paths from demonstrated acceptance. 
 | RGB input decoding and synchronization | OpenCV backend, `requirements-vision.txt` | Verified on the three bundles; frame counts match odometry rows and frame IDs are checked. |
 | LiDAR drift correction and before/after artifacts | `roomscan/geometry.py`, `outputs/benchmark/runs/*/full/drift_ablation.json` | Implemented single translational loop closure; not scored against physical truth. |
 | Data-only benchmark measurements | `roomscan/benchmark.py`, `outputs/benchmark/benchmark_measurements.csv`, `.json`, `.md` | Implemented: hull proxies, RGB/LiDAR differences, and within-capture split stability. These are not physical accuracy or repeatability scores. |
+| Reviewer access to representative tier outputs | `outputs/submission_preview/README.md` and nine checked-in JSON/SVG pairs | Included for direct inspection; the artifacts remain unvalidated geometric proxies. |
 | Photo/video wall-length and footprint accuracy gates | Benchmark summary | Not evaluated; no independent measured dimensions; photo proxies have no accepted points. |
 | Opening detection and width <= 2 cm gate | `roomscan/vision.py`, `roomscan/pipeline.py` | Detector absent; not evaluated. |
 | Ceiling-height error and repeat spread | LiDAR output and benchmark | Not evaluated; observed point-cloud extent is not physical ceiling ground truth and there is no repeat scan. |

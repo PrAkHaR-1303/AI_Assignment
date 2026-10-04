@@ -1,0 +1,307 @@
+{
+  "schema_version": "applied-ai-case-study/0.1",
+  "capture_id": "c7d28f72c6",
+  "capture_path": "single_scan_with_ceiling/c7d28f72c6",
+  "input_tier": "photo",
+  "processing_status": "insufficient_points_pose_assisted_rgb",
+  "units": "m",
+  "assumptions": [
+    "RGB observations come from the bundled rgb.mp4; no depth or confidence PNG is read by this tier.",
+    "Camera poses, metric scale, and per-frame camera intrinsics are read from the synchronized odometry.csv bundled with the RGB capture.",
+    "The photo tier selects up to eight still frames from the bundled video because no standalone photo capture is included in the supplied folders.",
+    "Sparse ORB matches are triangulated using known bundled poses; the outline is a convex hull of observed 3D feature points, not a validated wall reconstruction.",
+    "Fewer than 40 unique triangulated features were available; room measurements are unavailable or unreliable."
+  ],
+  "measurements": {
+    "floor_area": {
+      "value": null,
+      "unit": "m2",
+      "interval_95": null,
+      "status": "not_estimated"
+    },
+    "ceiling_height": {
+      "value": null,
+      "unit": "m",
+      "interval_95": null,
+      "status": "not_observed"
+    },
+    "footprint_axis_aligned_width_x": null,
+    "footprint_axis_aligned_length_z": null
+  },
+  "rooms": [
+    {
+      "room_id": "c7d28f72c6",
+      "geometry_status": "insufficient_points_pose_assisted_rgb",
+      "polygon_xz_m": [],
+      "floor_area": {
+        "value": null,
+        "unit": "m2",
+        "interval_95": null,
+        "status": "not_estimated"
+      },
+      "ceiling_height": {
+        "value": null,
+        "unit": "m",
+        "interval_95": null,
+        "status": "not_observed"
+      },
+      "walls": [],
+      "openings": [],
+      "opening_detection_status": "not_implemented",
+      "ceiling_evidence": "not_observed"
+    }
+  ],
+  "stitched_property_plan": {
+    "status": "single_capture_only",
+    "rooms": [
+      "c7d28f72c6"
+    ],
+    "adjacencies": [],
+    "note": "The supplied folders contain independent single-scan captures, not a connected multi-room route."
+  },
+  "damage_regions": {
+    "status": "not_assessed",
+    "items": [],
+    "classes": [],
+    "note": "RGB feature tracking is not a damage classifier; the supplied folders have no damage labels."
+  },
+  "concealed_damage": {
+    "status": "not_assessed",
+    "flags": [],
+    "rules_fired": [],
+    "note": "No concealed-damage labels or validated sensor rules are present in the supplied folders."
+  },
+  "scope_line_items": {
+    "status": "not_assessed",
+    "items": [],
+    "note": "No validated damage regions or price schedule are present."
+  },
+  "confidence_intervals": {
+    "calibration_status": "uncalibrated_no_independent_ground_truth",
+    "method": "Heuristic ±20% relative allowance or stated absolute floor; not empirically calibrated."
+  },
+  "drift_correction": {
+    "method": "Use paired odometry.csv metric camera poses directly; no visual loop-closure optimization",
+    "applied": false,
+    "limitations": "This RGB result is pose-assisted, not an image-only tier, and uses no independent ground truth."
+  },
+  "capture_statistics": {
+    "video_frame_count_reported": 9745,
+    "video_fps_reported": 45.33964019851117,
+    "video_width_px": 1920,
+    "video_height_px": 1440,
+    "decoded_selected_frame_count": 7,
+    "decode_backend": "FFMPEG",
+    "opencv_version": "5.0.0",
+    "orb_scale_x": 0.5,
+    "orb_scale_y": 0.5,
+    "rgb_decoded_frame_count": 7,
+    "rgb_candidate_frames": 8,
+    "rgb_selected_frame_ids": [
+      0,
+      1392,
+      2783,
+      4175,
+      5567,
+      6959,
+      8350,
+      9742
+    ],
+    "photo_still_count": 7,
+    "photo_still_limit": 8,
+    "orb_keypoint_counts": {
+      "0": 538,
+      "1392": 1643,
+      "2783": 1750,
+      "4175": 1410,
+      "5567": 343,
+      "6959": 2222,
+      "8350": 10
+    },
+    "visual_pair_count": 21,
+    "visual_match_count": 113,
+    "essential_matrix_inlier_count": 69,
+    "triangulated_unique_point_count": 0,
+    "median_reprojection_error_px": null,
+    "processing_seconds": 4.749,
+    "odometry_pose_count": 9745,
+    "odometry_video_frame_count_match": true
+  },
+  "camera_matrix_rgb": [
+    [
+      1601.0514,
+      0.0,
+      955.82275
+    ],
+    [
+      0.0,
+      1601.0514,
+      717.7025
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "trajectory_center_xz_m": [
+    1.614,
+    4.721
+  ],
+  "rendered_plan": "plan.svg",
+  "quality_flags": [
+    "Metric scale and camera poses come from the paired odometry export, so this is not a strict photo-only/video-only reconstruction.",
+    "Wall edges are sparse-feature convex-hull candidates and may include furniture or omit unobserved areas.",
+    "All measurement intervals are uncalibrated; no independent laser/tape references are present.",
+    "Fewer than 40 unique triangulated RGB features were reconstructed; geometric output is insufficient for dimensional use."
+  ],
+  "visual_pairs": [
+    {
+      "frame_a": 0,
+      "frame_b": 1392,
+      "matches": 3,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 0,
+      "frame_b": 2783,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 0,
+      "frame_b": 4175,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 0,
+      "frame_b": 5567,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 0,
+      "frame_b": 6959,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 0,
+      "frame_b": 8350,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1392,
+      "frame_b": 2783,
+      "matches": 6,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1392,
+      "frame_b": 4175,
+      "matches": 18,
+      "visual_inliers": 15,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1392,
+      "frame_b": 5567,
+      "matches": 8,
+      "visual_inliers": 7,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1392,
+      "frame_b": 6959,
+      "matches": 8,
+      "visual_inliers": 8,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 1392,
+      "frame_b": 8350,
+      "matches": 5,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2783,
+      "frame_b": 4175,
+      "matches": 7,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2783,
+      "frame_b": 5567,
+      "matches": 9,
+      "visual_inliers": 7,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2783,
+      "frame_b": 6959,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 2783,
+      "frame_b": 8350,
+      "matches": 17,
+      "visual_inliers": 17,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4175,
+      "frame_b": 5567,
+      "matches": 6,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4175,
+      "frame_b": 6959,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 4175,
+      "frame_b": 8350,
+      "matches": 15,
+      "visual_inliers": 15,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5567,
+      "frame_b": 6959,
+      "matches": 1,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 5567,
+      "frame_b": 8350,
+      "matches": 0,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    },
+    {
+      "frame_a": 6959,
+      "frame_b": 8350,
+      "matches": 2,
+      "visual_inliers": 0,
+      "triangulated_points": 0
+    }
+  ]
+}

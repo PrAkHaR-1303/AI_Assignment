@@ -37,6 +37,8 @@ python -m roomscan.benchmark --root . --output outputs/benchmark --frame-stride 
 
 It writes `benchmark_measurements.json`, `benchmark_measurements.csv`, `benchmark_summary.md`, and the per-tier JSON/SVG runs under `outputs/benchmark/runs/`.
 
+Curated copies of all nine tier outputs are checked in under [`outputs/submission_preview/`](outputs/submission_preview/README.md), so reviewers can inspect the generated plans without rerunning the benchmark or downloading the raw scans.
+
 The interleaved splits show sensitivity to frame sampling within one capture. Photo/video versus LiDAR differences show internal modality consistency. Neither is an independent accuracy or repeatability benchmark: no tape/laser measurements or repeated scans are present in the folders. The report leaves the assignment's accuracy gates unevaluated.
 
 ## Inputs
